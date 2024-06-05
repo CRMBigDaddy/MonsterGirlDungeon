@@ -10,6 +10,13 @@ namespace MonsterGirlDungeon
 {
     public abstract class Components
     {
+        public float scaleFactor = 1;
+
+        public void ChangeScaleFactor(float valueToAdd)
+        {
+            scaleFactor += valueToAdd;
+        }
+
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
         public abstract void Update(GameTime gameTime);

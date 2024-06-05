@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MonsterGirlDungeon.MainMenuUI;
+using MonsterGirlDungeon.MenuInterface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,18 +14,49 @@ namespace MonsterGirlDungeon.States
 
     internal class MenuState : State
     {
-        private List<Components> _components; 
+        private int menuStateResHeight = 180;
+        private int menuStateResWidth = 320;
 
-        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, Vector2 _position) : base(game, graphicsDevice, content)
+        private GraphicsDeviceManager _graphics;
+
+        private List<Components> _components;
+
+        public event EventHandler changeRes;
+
+        public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, GraphicsDeviceManager graphics) : base(game, graphicsDevice, content)
         {
+            _graphics = graphics;
+
+            Texture2D resButtonTexture = _content.Load<Texture2D>("textures/ButtonPlay");
+            Vector2 resButtonPos = new Vector2(0, 0);
+
+            Button resButton = new Button(resButtonTexture, resButtonPos);
+
+            resButton.Click += ResButton_Click;
 
             _components = new List<Components>()
             {
-                
+                resButton,
             };
+        }
+
+        private void ResButton_Click(object sender, EventArgs e)
+        {
+            foreach (var component in _components)
+            {
+                component.ChangeScaleFactor(1);
+            }
+
+            menuStateResHeight += 180;
+            menuStateResWidth += 320;
+
+            _graphics.PreferredBackBufferHeight = menuStateResHeight;
+            _graphics.PreferredBackBufferWidth = menuStateResWidth;
+
+            _graphics.ApplyChanges();
 
         }
-       
+
         //Main Methode Region
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -40,11 +71,6 @@ namespace MonsterGirlDungeon.States
             spriteBatch.End();
         }
 
-        public override void PostUpdate(GameTime gameTime)
-        {
-            //remvoe sprites if there are not needed
-        }
-
         public override void Update(GameTime gameTime)
         {
             foreach (var component in _components)
@@ -52,5 +78,12 @@ namespace MonsterGirlDungeon.States
                 component.Update(gameTime);
             }
         }
+
+        public override void PostUpdate(GameTime gameTime)
+        {
+
+        }
+
+        //Logic Method Region
     }
 }
