@@ -27,10 +27,13 @@ namespace MonsterGirlDungeon.States
 
         private SpriteFont font;
 
+        private ContentManager _content;
+
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, GraphicsDeviceManager graphics) : base(game, graphicsDevice, content)
         {
             _graphics = graphics;
+            _content = content;
 
             MainMenu();
             OptionsMenu();
@@ -43,9 +46,6 @@ namespace MonsterGirlDungeon.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(samplerState : SamplerState.PointClamp);
-
-
-            spriteBatch.DrawString(font, "test 123 ABC", new Vector2(0, 0), Color.White, 0, new Vector2(0,0), _menuStateScaleTracker, SpriteEffects.None, 1);
 
             foreach (var component in _components) 
             {
@@ -93,14 +93,12 @@ namespace MonsterGirlDungeon.States
         {
             Texture2D optionButtontexture = _content.Load<Texture2D>("textures/ButtonOptionos");
             Vector2 optionButtonPos = new Vector2(10, 70);
-
-            Button optionsButton = new Button(optionButtontexture, optionButtonPos);
+            Button optionsButton = new Button(_content,optionButtontexture, optionButtonPos, "TEST");
             optionsButton.Click += optionsButton_Click;
 
             Texture2D exitButtontexture = _content.Load<Texture2D>("textures/ButtonExit");
             Vector2 exitButtonPos = new Vector2(10, 150);
-
-            Button exitButton = new Button(exitButtontexture, exitButtonPos);
+            Button exitButton = new Button(_content, exitButtontexture, exitButtonPos, "BigBlack");
             exitButton.Click += ExitButton_Click;
 
             _components = new List<Components>()
@@ -112,13 +110,11 @@ namespace MonsterGirlDungeon.States
 
         private void OptionsMenu()
         {
-            Vector2 optionWindowPos = new Vector2(95, 20);
-
 
             Texture2D resButtonTexture = _content.Load<Texture2D>("textures/ResolutionButton");
             Vector2 resButtonPos = new Vector2(100, 30);
 
-            Button resButton = new Button(resButtonTexture, resButtonPos);
+            Button resButton = new Button(_content, resButtonTexture, resButtonPos, "NIIIIIIGGGGGGEEEEEEERRRR");
             resButton.Click += ResButton_Click;
 
             _hiddenComponents = new List<Components>()

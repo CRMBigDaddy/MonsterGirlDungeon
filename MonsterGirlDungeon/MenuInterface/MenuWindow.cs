@@ -27,6 +27,7 @@ namespace MonsterGirlDungeon.MenuInterface
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, _position, null, Color.White, 0f, new Vector2(0, 0), scaleFactor, SpriteEffects.None, 1);
+
         }
 
         public override void Update(GameTime gameTime)
