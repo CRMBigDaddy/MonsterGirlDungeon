@@ -23,9 +23,9 @@ namespace MonsterGirlDungeon.States
 
         private bool _showOptions = false;
 
-        private Texture2D optionsMenuEdge;
+        private int _menuStateScaleTracker = 2;
 
-
+        private SpriteFont font;
 
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, GraphicsDeviceManager graphics) : base(game, graphicsDevice, content)
@@ -35,6 +35,7 @@ namespace MonsterGirlDungeon.States
             MainMenu();
             OptionsMenu();
 
+            font = content.Load<SpriteFont>("Fonts/File");
         }
 
         //Main Methode Region
@@ -43,7 +44,10 @@ namespace MonsterGirlDungeon.States
         {
             spriteBatch.Begin(samplerState : SamplerState.PointClamp);
 
-            foreach(var component in _components) 
+
+            spriteBatch.DrawString(font, "test 123 ABC", new Vector2(0, 0), Color.White, 0, new Vector2(0,0), _menuStateScaleTracker, SpriteEffects.None, 1);
+
+            foreach (var component in _components) 
             {
                 component.Draw(gameTime, spriteBatch);
             }
@@ -108,10 +112,8 @@ namespace MonsterGirlDungeon.States
 
         private void OptionsMenu()
         {
-            Texture2D optionWindowTexture = _content.Load<Texture2D>("textures/OptionsWindow");
             Vector2 optionWindowPos = new Vector2(95, 20);
 
-            MenuWindow optionsWindow = new MenuWindow(optionWindowTexture, optionWindowPos);
 
             Texture2D resButtonTexture = _content.Load<Texture2D>("textures/ResolutionButton");
             Vector2 resButtonPos = new Vector2(100, 30);
@@ -121,7 +123,6 @@ namespace MonsterGirlDungeon.States
 
             _hiddenComponents = new List<Components>()
             {
-                optionsWindow,
                 resButton,
             };
         }
@@ -155,6 +156,8 @@ namespace MonsterGirlDungeon.States
             {
                 component.ChangeScaleFactor(1);
             }
+
+            _menuStateScaleTracker += 1;
 
             _graphics.PreferredBackBufferHeight += 180;
             _graphics.PreferredBackBufferWidth += 320;
