@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonsterGirlDungeon.MenuInterface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,7 +25,12 @@ namespace MonsterGirlDungeon.States
 
         private bool _showOptions = false;
 
-        private int _menuStateScaleTracker = 2;
+        private bool _showDebug = false;
+        private Vector2 _mousePos = new Vector2();
+
+        private int _menuStateScaleTracker = 1;
+
+        private Texture2D _buttonTexture;
 
         private SpriteFont font;
 
@@ -34,6 +41,8 @@ namespace MonsterGirlDungeon.States
         {
             _graphics = graphics;
             _content = content;
+
+            _buttonTexture = _content.Load<Texture2D>("textures/uiElements/BetterButton");
 
             MainMenu();
             OptionsMenu();
@@ -61,6 +70,11 @@ namespace MonsterGirlDungeon.States
 
             }
 
+            if(_showDebug)
+            {
+                spriteBatch.DrawString(font, "mousePos: " + _mousePos.X + " X, " + _mousePos.Y + " Y ", new Vector2(0, 0),Color.White, 0f, new Vector2(0,0), _menuStateScaleTracker, SpriteEffects.None, 1);
+            }
+
             spriteBatch.End();
         }
 
@@ -78,6 +92,10 @@ namespace MonsterGirlDungeon.States
                     component.Update(gameTime);
                 }
             }
+            MouseState mouseState = Mouse.GetState();
+
+            _mousePos.X = mouseState.X / _menuStateScaleTracker;
+            _mousePos.Y = mouseState.Y / _menuStateScaleTracker;
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -91,40 +109,70 @@ namespace MonsterGirlDungeon.States
         #region Menu SetUp
         private void MainMenu()
         {
-            Texture2D optionButtontexture = _content.Load<Texture2D>("textures/ButtonOptionos");
-            Vector2 optionButtonPos = new Vector2(10, 70);
-            Button optionsButton = new Button(_content,optionButtontexture, optionButtonPos, "TEST");
+            Vector2 playButtonPos = new Vector2(10, 220);
+            Button playButton = new Button(_content, _buttonTexture, playButtonPos, "Play", new Vector2(0, 2));
+            playButton.Click += playButton_Click;
+
+            Vector2 optionButtonPos = new Vector2(10, 260);
+            Button optionsButton = new Button(_content, _buttonTexture, optionButtonPos, "Options", new Vector2(0, 2));
             optionsButton.Click += optionsButton_Click;
 
-            Texture2D exitButtontexture = _content.Load<Texture2D>("textures/ButtonExit");
-            Vector2 exitButtonPos = new Vector2(10, 150);
-            Button exitButton = new Button(_content, exitButtontexture, exitButtonPos, "BigBlack");
+            Vector2 exitButtonPos = new Vector2(10, 300);
+            Button exitButton = new Button(_content, _buttonTexture, exitButtonPos, "Exit", new Vector2(0, 2));
             exitButton.Click += ExitButton_Click;
 
             _components = new List<Components>()
             {
+                playButton,
                 optionsButton,
                 exitButton,
             };
         }
 
+        private String textForButton = "ChangeTextButton";
+
+
         private void OptionsMenu()
         {
 
-            Texture2D resButtonTexture = _content.Load<Texture2D>("textures/ResolutionButton");
-            Vector2 resButtonPos = new Vector2(100, 30);
-
-            Button resButton = new Button(_content, resButtonTexture, resButtonPos, "NIIIIIIGGGGGGEEEEEEERRRR");
+            Vector2 resButtonPos = new Vector2(150, 30);
+            Button resButton = new Button(_content, _buttonTexture, resButtonPos, "720 x 1280", new Vector2(0, 2));
             resButton.Click += ResButton_Click;
+
+            Vector2 debugButtonPos = new Vector2(150, 65);
+            Button debugButton = new Button(_content, _buttonTexture, debugButtonPos, "Debug", new Vector2(0, 2));
+            debugButton.Click += DeBugButton_Click;
+
 
             _hiddenComponents = new List<Components>()
             {
                 resButton,
+                debugButton,
             };
         }
+
+
         #endregion
         //Button Events
         #region Button Events
+
+        private void playButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DeBugButton_Click(object sender, EventArgs e)
+        {
+            if (!_showDebug)
+            {
+                _showDebug = true;
+            }
+            else if (_showDebug)
+            {
+                _showDebug = false;
+            }
+        }
+
         private void optionsButton_Click(object sender, EventArgs e)
         {
             if (!_showOptions)
@@ -144,19 +192,19 @@ namespace MonsterGirlDungeon.States
 
         private void ResButton_Click(object sender, EventArgs e)
         {
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferWidth = 1280;
+
+            _menuStateScaleTracker = 2;
+
             foreach (var component in _components)
             {
-                component.ChangeScaleFactor(1);
+                component.ChangeScaleFactor(_menuStateScaleTracker);
             }
             foreach (var component in _hiddenComponents)
             {
-                component.ChangeScaleFactor(1);
+                component.ChangeScaleFactor(_menuStateScaleTracker);
             }
-
-            _menuStateScaleTracker += 1;
-
-            _graphics.PreferredBackBufferHeight += 180;
-            _graphics.PreferredBackBufferWidth += 320;
 
             _graphics.ApplyChanges();
 

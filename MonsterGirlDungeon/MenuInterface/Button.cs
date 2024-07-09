@@ -22,6 +22,8 @@ namespace MonsterGirlDungeon.MenuInterface
         private Vector2 _textOrigion = new Vector2();
         private Vector2 _originaltextPosiiton = new Vector2();
 
+        private Vector2 _textOffset = new Vector2();
+
         private SpriteFont _font;
 
         private Rectangle _hitbox;
@@ -33,18 +35,20 @@ namespace MonsterGirlDungeon.MenuInterface
 
         public event EventHandler Click;
 
-        public Button(ContentManager content, Texture2D texture, Vector2 position, string text)
+        public Button(ContentManager content, Texture2D texture, Vector2 position, string text, Vector2 textOffset)
         {
             _font = content.Load<SpriteFont>("Fonts/File");
 
             _texture = texture;
             _position = position;
             _text = text;
+            _textOffset = textOffset;
+
             _hitbox = new Rectangle((int)_position.X, (int)_position.Y, _texture.Width * (int)scaleFactor, _texture.Height * (int)scaleFactor);
             _originalPsoition = _position;
 
-            _textPosition.X = _position.X + _texture.Width / 2;
-            _textPosition.Y = _position.Y + _texture.Height / 2;
+            _textPosition.X = (_position.X + _texture.Width / 2) + _textOffset.X;
+            _textPosition.Y = (_position.Y + _texture.Height / 2) + _textOffset.Y;
 
             _textOrigion = _font.MeasureString(_text) / 2;
 
@@ -55,7 +59,7 @@ namespace MonsterGirlDungeon.MenuInterface
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, _position, null, buttonColor, 0f, new Vector2(0,0), scaleFactor, SpriteEffects.None, 1);
-            spriteBatch.DrawString(_font, _text, _textPosition, Color.Red, 0f, _textOrigion, scaleFactor, SpriteEffects.None, 1);
+            spriteBatch.DrawString(_font, _text, _textPosition, Color.White, 0f, _textOrigion, scaleFactor, SpriteEffects.None, 1);
         }
 
         public override void Update(GameTime gameTime)

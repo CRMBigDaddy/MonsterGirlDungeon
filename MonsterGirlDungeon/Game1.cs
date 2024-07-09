@@ -15,8 +15,8 @@ namespace MonsterGirlDungeon
         private State _currentState;
         private State _nextState;
 
-        private int _nativeWidth = 960;
-        private int _nativeHeight = 540;
+        private int _nativeHeight = 360;
+        private int _nativeWidth = 640;
 
         public void ChangeState(State state)
         {
