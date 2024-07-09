@@ -17,7 +17,7 @@ namespace MonsterGirlDungeon.States
 
     internal class MenuState : State
     {
-
+        private Game1 _game;
         private GraphicsDeviceManager _graphics;
 
         private List<Components> _components;
@@ -28,7 +28,7 @@ namespace MonsterGirlDungeon.States
         private bool _showDebug = false;
         private Vector2 _mousePos = new Vector2();
 
-        private int _menuStateScaleTracker = 1;
+        static int _menuStateScaleTracker = 1;
 
         private Texture2D _buttonTexture;
 
@@ -39,6 +39,7 @@ namespace MonsterGirlDungeon.States
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, GraphicsDeviceManager graphics) : base(game, graphicsDevice, content)
         {
+            _game = game;
             _graphics = graphics;
             _content = content;
 
@@ -158,7 +159,7 @@ namespace MonsterGirlDungeon.States
 
         private void playButton_Click(object sender, EventArgs e)
         {
-
+            _game.ChangeToGameState();
         }
 
         private void DeBugButton_Click(object sender, EventArgs e)
@@ -210,6 +211,12 @@ namespace MonsterGirlDungeon.States
 
         }
         #endregion
+
+        public int GetCurrentMenuscale()
+        {
+            int currentMenuScale = _menuStateScaleTracker;
+            return currentMenuScale;
+        }
 
     }
 }
