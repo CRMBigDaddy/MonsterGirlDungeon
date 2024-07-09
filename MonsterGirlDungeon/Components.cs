@@ -10,7 +10,8 @@ namespace MonsterGirlDungeon
 {
     public abstract class Components
     {
-        public float scaleFactor = 1;
+        public float scaleFactor = AppScaleFactor._scaleFactor;
+
 
         public void ChangeScaleFactor(float valueToChange)
         {

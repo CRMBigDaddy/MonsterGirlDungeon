@@ -28,8 +28,6 @@ namespace MonsterGirlDungeon.States
         private bool _showDebug = false;
         private Vector2 _mousePos = new Vector2();
 
-        static int _menuStateScaleTracker = 1;
-
         private Texture2D _buttonTexture;
 
         private SpriteFont font;
@@ -73,7 +71,7 @@ namespace MonsterGirlDungeon.States
 
             if(_showDebug)
             {
-                spriteBatch.DrawString(font, "mousePos: " + _mousePos.X + " X, " + _mousePos.Y + " Y ", new Vector2(0, 0),Color.White, 0f, new Vector2(0,0), _menuStateScaleTracker, SpriteEffects.None, 1);
+                spriteBatch.DrawString(font, "mousePos: " + _mousePos.X + " X, " + _mousePos.Y + " Y ", new Vector2(0, 0),Color.White, 0f, new Vector2(0,0), AppScaleFactor._scaleFactor, SpriteEffects.None, 1);
             }
 
             spriteBatch.End();
@@ -95,8 +93,8 @@ namespace MonsterGirlDungeon.States
             }
             MouseState mouseState = Mouse.GetState();
 
-            _mousePos.X = mouseState.X / _menuStateScaleTracker;
-            _mousePos.Y = mouseState.Y / _menuStateScaleTracker;
+            _mousePos.X = mouseState.X / AppScaleFactor._scaleFactor;
+            _mousePos.Y = mouseState.Y / AppScaleFactor._scaleFactor;
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -140,6 +138,10 @@ namespace MonsterGirlDungeon.States
             Button resButton = new Button(_content, _buttonTexture, resButtonPos, "720 x 1280", new Vector2(0, 2));
             resButton.Click += ResButton_Click;
 
+            Vector2 resButton2Pos = new Vector2(290, 30);
+            Button resButton2 = new Button(_content, _buttonTexture, resButton2Pos, "360 x 640", new Vector2(0, 2));
+            resButton2.Click += ResButton2_Click;
+
             Vector2 debugButtonPos = new Vector2(150, 65);
             Button debugButton = new Button(_content, _buttonTexture, debugButtonPos, "Debug", new Vector2(0, 2));
             debugButton.Click += DeBugButton_Click;
@@ -148,6 +150,7 @@ namespace MonsterGirlDungeon.States
             _hiddenComponents = new List<Components>()
             {
                 resButton,
+                resButton2,
                 debugButton,
             };
         }
@@ -196,15 +199,35 @@ namespace MonsterGirlDungeon.States
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.PreferredBackBufferWidth = 1280;
 
-            _menuStateScaleTracker = 2;
+            AppScaleFactor._scaleFactor = 2;
 
             foreach (var component in _components)
             {
-                component.ChangeScaleFactor(_menuStateScaleTracker);
+                component.ChangeScaleFactor(AppScaleFactor._scaleFactor);
             }
             foreach (var component in _hiddenComponents)
             {
-                component.ChangeScaleFactor(_menuStateScaleTracker);
+                component.ChangeScaleFactor(AppScaleFactor._scaleFactor);
+            }
+
+            _graphics.ApplyChanges();
+
+        }
+
+        private void ResButton2_Click(object sender, EventArgs e)
+        {
+            _graphics.PreferredBackBufferHeight = 360;
+            _graphics.PreferredBackBufferWidth = 640;
+
+            AppScaleFactor._scaleFactor = 1;
+
+            foreach (var component in _components)
+            {
+                component.ChangeScaleFactor(AppScaleFactor._scaleFactor);
+            }
+            foreach (var component in _hiddenComponents)
+            {
+                component.ChangeScaleFactor(AppScaleFactor._scaleFactor);
             }
 
             _graphics.ApplyChanges();
@@ -214,7 +237,7 @@ namespace MonsterGirlDungeon.States
 
         public int GetCurrentMenuscale()
         {
-            int currentMenuScale = _menuStateScaleTracker;
+            int currentMenuScale = AppScaleFactor._scaleFactor;
             return currentMenuScale;
         }
 
