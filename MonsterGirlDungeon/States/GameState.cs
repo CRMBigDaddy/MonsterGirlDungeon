@@ -24,32 +24,25 @@ namespace MonsterGirlDungeon.States
         private Map map1;
         private Texture2D _tileTextureSheetMap1;
 
-
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, MenuState menustate) : base(game, graphicsDevice, content)
         {
             _game = game;
             _content = content;
             _font = content.Load<SpriteFont>("Fonts/File");
 
-            _tileTextureSheetMap1 = content.Load<Texture2D>("textures/tiles/testTileMap");
+            _tileTextureSheetMap1 = content.Load<Texture2D>("textures/tiles/testTileMap3");
             map1 = new Map
                 (
                     _content,
-
-                    //Map path
-                    "C:\\Users\\Haico\\Desktop\\MGD\\MonsterGirlDungeon\\MonsterGirlDungeon\\Content\\bin\\maps.csv",
-
+                    //tiles in tile sheet, need to be square = A x A
+                    new Vector2(10, 10),
+                    //Map paths
+                    "../../../Data/maps/CTM/CTM_Collision.csv",
+                    "../../../Data/maps/CTM/CTM_fg.csv",
+                    "../../../Data/maps/CTM/CTM_mg.csv",
+                    "../../../Data/maps/CTM/CTM_bg.csv",
                     //tile Sheet with textures
-                    _tileTextureSheetMap1,
-
-                    //tile texture position on tile sheet and tile size
-                    new List<Rectangle>
-                    {
-                        new Rectangle(0, 0,     16, 16),
-                        new Rectangle(16, 0,    16, 16),
-                        new Rectangle(0, 16,    16, 16),
-                        new Rectangle(16, 16,   16, 16)
-                    }
+                    _tileTextureSheetMap1
                 );
 
         }
@@ -66,8 +59,6 @@ namespace MonsterGirlDungeon.States
 
         public override void Update(GameTime gameTime)
         {
-
-
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
