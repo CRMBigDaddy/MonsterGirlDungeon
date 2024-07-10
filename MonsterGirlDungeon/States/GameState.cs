@@ -22,6 +22,7 @@ namespace MonsterGirlDungeon.States
         private SpriteFont _font;
 
         private Map map1;
+        private Texture2D _tileTextureSheetMap1;
 
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, MenuState menustate) : base(game, graphicsDevice, content)
@@ -30,7 +31,26 @@ namespace MonsterGirlDungeon.States
             _content = content;
             _font = content.Load<SpriteFont>("Fonts/File");
 
-            map1 = new Map(_content);
+            _tileTextureSheetMap1 = content.Load<Texture2D>("textures/tiles/testTileMap");
+            map1 = new Map
+                (
+                    _content,
+
+                    //Map path
+                    "C:\\Users\\Haico\\Desktop\\MGD\\MonsterGirlDungeon\\MonsterGirlDungeon\\Content\\bin\\maps.csv",
+
+                    //tile Sheet with textures
+                    _tileTextureSheetMap1,
+
+                    //tile texture position on tile sheet and tile size
+                    new List<Rectangle>
+                    {
+                        new Rectangle(0, 0,     16, 16),
+                        new Rectangle(16, 0,    16, 16),
+                        new Rectangle(0, 16,    16, 16),
+                        new Rectangle(16, 16,   16, 16)
+                    }
+                );
 
         }
 

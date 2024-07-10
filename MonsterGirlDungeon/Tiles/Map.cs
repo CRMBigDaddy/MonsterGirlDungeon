@@ -17,16 +17,13 @@ namespace MonsterGirlDungeon.Tiles
         private List<Rectangle> _textureStore;
 
         private Texture2D _tileTextureSheet;
-        public Map(ContentManager content) 
+        public Map(ContentManager content, string mapFilePath, Texture2D tileTExtureSheet, List<Rectangle> textureStore) 
         {
-            _tileTextureSheet = content.Load<Texture2D>("textures/tiles/testTileMap");
+            _tileTextureSheet = tileTExtureSheet;
+            _tilemap = LoadMap(mapFilePath);
 
-            _tilemap = LoadMap("C:\\Users\\Haico\\Desktop\\MGD\\MonsterGirlDungeon\\MonsterGirlDungeon\\Content\\bin\\maps.csv");
-            _textureStore = new()
-            {
-                new Rectangle(0,0, 16,16),
-                new Rectangle(16,16, 16,16)
-            };
+            _textureStore = textureStore;
+            
         }
 
         public void DrawMap(GameTime gameTime, SpriteBatch spriteBatch)
