@@ -19,20 +19,20 @@ namespace MonsterGirlDungeon.States
     {
         private Game1 _game;
         private GraphicsDeviceManager _graphics;
+        private ContentManager _content;
+
 
         private List<Components> _components;
         private List<Components> _hiddenComponents;
 
-        private bool _showOptions = false;
-
-        private bool _showDebug = false;
-        private Vector2 _mousePos = new Vector2();
-
         private Texture2D _buttonTexture;
-
         private SpriteFont font;
 
-        private ContentManager _content;
+        private Vector2 _mousePos = new Vector2();
+
+        private bool _showOptions = false;
+        private bool _showDebug = false;
+
 
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, GraphicsDeviceManager graphics) : base(game, graphicsDevice, content)
@@ -102,6 +102,12 @@ namespace MonsterGirlDungeon.States
 
         }
 
+        public override void UnLoadState()
+        {
+            _showOptions = false;
+            _showDebug = false;
+        }
+
         //Logic Method Region
 
         //Menus Setup
@@ -127,9 +133,6 @@ namespace MonsterGirlDungeon.States
                 exitButton,
             };
         }
-
-        private String textForButton = "ChangeTextButton";
-
 
         private void OptionsMenu()
         {
@@ -240,6 +243,5 @@ namespace MonsterGirlDungeon.States
             int currentMenuScale = AppScaleFactor._scaleFactor;
             return currentMenuScale;
         }
-
     }
 }

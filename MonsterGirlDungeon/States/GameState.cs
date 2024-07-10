@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using MonsterGirlDungeon.Tiles;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,13 +21,8 @@ namespace MonsterGirlDungeon.States
         private GraphicsDeviceManager _graphics;
         private SpriteFont _font;
 
-        private bool _stateLoaded = false;
+        private Map map1;
 
-        private List<Components> _tiles;
-
-        private Texture2D _testTileTexture;
-        private int tileDrawerXPos;
-        private int tileDrawerYPos;
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, MenuState menustate) : base(game, graphicsDevice, content)
         {
@@ -34,7 +30,7 @@ namespace MonsterGirlDungeon.States
             _content = content;
             _font = content.Load<SpriteFont>("Fonts/File");
 
-            _testTileTexture = content.Load<Texture2D>("textures/tiles/maxwell");
+            map1 = new Map(_content);
 
         }
 
@@ -42,23 +38,7 @@ namespace MonsterGirlDungeon.States
         {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            for (int x = 0; x < 16; x++)
-            {
-
-                tileDrawerXPos += 16;
-                spriteBatch.Draw(_testTileTexture, new Vector2(tileDrawerXPos, tileDrawerYPos) * AppScaleFactor._scaleFactor, null, Color.White, 0f, new Vector2(0, 0), AppScaleFactor._scaleFactor, SpriteEffects.None, 1);
-
-                for (int y = 0; y < 16; y++)
-                {
-
-                    tileDrawerYPos += 16;
-                    spriteBatch.Draw(_testTileTexture, new Vector2(tileDrawerXPos, tileDrawerYPos) * AppScaleFactor._scaleFactor, null, Color.White, 0f, new Vector2(0, 0), AppScaleFactor._scaleFactor, SpriteEffects.None, 1);
-                }
-                tileDrawerYPos = 0;
-            }
-            tileDrawerXPos = 0;
-
-
+            map1.DrawMap(gameTime, spriteBatch);
 
             spriteBatch.End();
 
@@ -72,11 +52,15 @@ namespace MonsterGirlDungeon.States
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 _game.ChangeToMenuState();
-                _stateLoaded = false;
             }
         }
 
         public override void PostUpdate(GameTime gameTime)
+        {
+
+        }
+
+        public override void UnLoadState()
         {
 
         }

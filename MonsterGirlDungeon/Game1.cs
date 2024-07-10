@@ -22,7 +22,8 @@ namespace MonsterGirlDungeon
 
         public void ChangeToGameState()
         {
-            _currentState = _gameState; 
+            _currentState = _gameState;
+            _menuState.UnLoadState();
         }
         public void ChangeToMenuState()
         {

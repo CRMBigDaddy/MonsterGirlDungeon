@@ -37,6 +37,8 @@ namespace MonsterGirlDungeon.States
 
         public abstract void Update(GameTime gameTime);
 
+        public abstract void UnLoadState();
+
         #endregion
 
     }
