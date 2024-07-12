@@ -22,6 +22,7 @@ namespace MonsterGirlDungeon.Tiles
         private Dictionary<Vector2, int> _backGroundLayer;
 
         private Texture2D _tileTextureSheet;
+        private Texture2D _Background;
 
         public Map(ContentManager content, Vector2 mapScale, string collisonLayerPather, string forGroundLayerPath, string middleGroundLayerPath, string backGroundLayerPath, Texture2D tileTExtureSheet) 
         {
