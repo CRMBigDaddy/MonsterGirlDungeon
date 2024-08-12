@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonsterGirlDungeon.Tiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,32 +20,17 @@ namespace MonsterGirlDungeon.States
         private GraphicsDeviceManager _graphics;
         private SpriteFont _font;
 
-        private Map map1;
-        private Texture2D _tileTextureSheetMap1;
+        private Vector2 _mousePos = new Vector2();
+        private Vector2 _playerPos = new Vector2();
+
 
         private Texture2D _playerTexture;
         private Player _player; 
-
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, MenuState menustate) : base(game, graphicsDevice, content)
         {
             _game = game;
             _content = content;
             _font = content.Load<SpriteFont>("Fonts/File");
-
-            _tileTextureSheetMap1 = content.Load<Texture2D>("textures/tiles/testTileMap3");
-            map1 = new Map
-                (
-                    _content,
-                    //tiles in tile sheet, need to be square = A x A
-                    new Vector2(10, 10),
-                    //Map paths
-                    "../../../Data/maps/ProtoTypMap0.1/ProTyp_Collision.csv",
-                    "../../../Data/maps/ProtoTypMap0.1/ProTyp_fg.csv",
-                    "../../../Data/maps/ProtoTypMap0.1/ProTyp_mg.csv",
-                    "../../../Data/maps/ProtoTypMap0.1/ProTyp_bg.csv",
-                    //tile Sheet with textures
-                    _tileTextureSheetMap1
-                );
 
             _playerTexture = content.Load<Texture2D>("textures/tiles/maxwell");
             _player = new Player(new Vector2(32, 32),_playerTexture);
@@ -57,8 +41,10 @@ namespace MonsterGirlDungeon.States
         {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            map1.DrawMap(gameTime, spriteBatch);
             _player.Draw(gameTime, spriteBatch);
+
+            spriteBatch.DrawString(_font, "mousePos: " + _mousePos.X + " X, " + _mousePos.Y + " Y ", new Vector2(0, 2) * AppScaleFactor._scaleFactor, Color.White, 0f, new Vector2(0, 0), AppScaleFactor._scaleFactor, SpriteEffects.None, 1);
+            spriteBatch.DrawString(_font, "playerPos: " + _playerPos.X + " X, " + _playerPos.Y + " Y ", new Vector2(0, 22) * AppScaleFactor._scaleFactor, Color.White, 0f, new Vector2(0, 0), AppScaleFactor._scaleFactor, SpriteEffects.None, 1);
 
             spriteBatch.End();
 
@@ -66,8 +52,15 @@ namespace MonsterGirlDungeon.States
 
         public override void Update(GameTime gameTime)
         {
-            _player.Update(gameTime);
+            MouseState mouseState = Mouse.GetState();
 
+
+            _mousePos.X = mouseState.X / AppScaleFactor._scaleFactor;
+            _mousePos.Y = mouseState.Y / AppScaleFactor._scaleFactor;
+
+            _playerPos = _player.GetPlayerPos();
+
+            _player.Update(gameTime);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {

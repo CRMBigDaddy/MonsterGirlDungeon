@@ -13,8 +13,10 @@ namespace MonsterGirlDungeon
     internal class Player : Components
     {
         private Vector2 _playerSpawnPosition = Vector2.Zero;
-        private Rectangle _playerHitbox;
+        public Rectangle _playerHitbox;
         private Texture2D _playerTexture;
+
+        private int _playerSpeed;
 
         public Player(Vector2 playerSpawnPosition, Texture2D playerTexture)
         {
@@ -22,7 +24,7 @@ namespace MonsterGirlDungeon
             _playerTexture = playerTexture;
 
             _playerHitbox = new Rectangle((int)_playerSpawnPosition.X, (int)_playerSpawnPosition.Y, 32, 32);
-
+            _playerSpeed = 3;
         }
 
 
@@ -44,21 +46,21 @@ namespace MonsterGirlDungeon
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                _playerHitbox.Y -= 1;
+                _playerHitbox.Y -= _playerSpeed * AppScaleFactor._scaleFactor;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                _playerHitbox.Y += 1;
+                _playerHitbox.Y += _playerSpeed * AppScaleFactor._scaleFactor;
 
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                _playerHitbox.X -= 1;
+                _playerHitbox.X -= _playerSpeed * AppScaleFactor._scaleFactor;
 
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                _playerHitbox.X += 1;
+                _playerHitbox.X += _playerSpeed * AppScaleFactor._scaleFactor;
 
             }
         }
