@@ -17,8 +17,8 @@ namespace MonsterGirlDungeon
         private MenuState _menuState;
         private GameState _gameState;
 
-        private int _nativeHeight = 360;
-        private int _nativeWidth = 640;
+        private int _nativeHeight = 180;
+        private int _nativeWidth = 320;
 
         public void ChangeToGameState()
         {

@@ -23,7 +23,7 @@ namespace MonsterGirlDungeon
             _playerSpawnPosition = playerSpawnPosition;
             _playerTexture = playerTexture;
 
-            _playerHitbox = new Rectangle((int)_playerSpawnPosition.X, (int)_playerSpawnPosition.Y, 32, 32);
+            _playerHitbox = new Rectangle((int)_playerSpawnPosition.X, (int)_playerSpawnPosition.Y, 16, 16);
             _playerSpeed = 3;
         }
 
@@ -35,8 +35,8 @@ namespace MonsterGirlDungeon
 
         public override void Update(GameTime gameTime)
         {
-            _playerHitbox.Width = 32 * AppScaleFactor._scaleFactor;
-            _playerHitbox.Height = 32 * AppScaleFactor._scaleFactor;
+            _playerHitbox.Width = 16 * AppScaleFactor._scaleFactor;
+            _playerHitbox.Height = 16 * AppScaleFactor._scaleFactor;
 
             PlayerMovment();
 
@@ -71,6 +71,8 @@ namespace MonsterGirlDungeon
 
             playerPos.X = _playerHitbox.X;
             playerPos.Y = _playerHitbox.Y;
+
+            playerPos = playerPos / AppScaleFactor._scaleFactor;
 
             return playerPos; 
         }

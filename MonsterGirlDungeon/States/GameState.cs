@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonsterGirlDungeon.Map;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,7 @@ namespace MonsterGirlDungeon.States
         private Vector2 _mousePos = new Vector2();
         private Vector2 _playerPos = new Vector2();
 
+        private GameMap _map;
 
         private Texture2D _playerTexture;
         private Player _player; 
@@ -33,7 +35,9 @@ namespace MonsterGirlDungeon.States
             _font = content.Load<SpriteFont>("Fonts/File");
 
             _playerTexture = content.Load<Texture2D>("textures/tiles/maxwell");
-            _player = new Player(new Vector2(32, 32),_playerTexture);
+            _player = new Player(new Vector2(16, 16),_playerTexture);
+
+            _map = new GameMap(content, 16, 16);
 
         }
 
@@ -41,10 +45,12 @@ namespace MonsterGirlDungeon.States
         {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
+            _map.Draw(gameTime, spriteBatch);
+             
             _player.Draw(gameTime, spriteBatch);
 
             spriteBatch.DrawString(_font, "mousePos: " + _mousePos.X + " X, " + _mousePos.Y + " Y ", new Vector2(0, 2) * AppScaleFactor._scaleFactor, Color.White, 0f, new Vector2(0, 0), AppScaleFactor._scaleFactor, SpriteEffects.None, 1);
-            spriteBatch.DrawString(_font, "playerPos: " + _playerPos.X + " X, " + _playerPos.Y + " Y ", new Vector2(0, 22) * AppScaleFactor._scaleFactor, Color.White, 0f, new Vector2(0, 0), AppScaleFactor._scaleFactor, SpriteEffects.None, 1);
+            spriteBatch.DrawString(_font, "playerPos: " + (int)_playerPos.X + " X, " + (int)_playerPos.Y + " Y ", new Vector2(0, 22) * AppScaleFactor._scaleFactor, Color.White, 0f, new Vector2(0, 0), AppScaleFactor._scaleFactor, SpriteEffects.None, 1);
 
             spriteBatch.End();
 
