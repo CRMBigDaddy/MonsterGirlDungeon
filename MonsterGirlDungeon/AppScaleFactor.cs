@@ -8,6 +8,6 @@ namespace MonsterGirlDungeon
 {
     static class AppScaleFactor
     {
-        static public int _scaleFactor = 1;
+        static public int _scaleFactor = 2;
     }
 }

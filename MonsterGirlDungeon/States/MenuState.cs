@@ -41,7 +41,7 @@ namespace MonsterGirlDungeon.States
             _graphics = graphics;
             _content = content;
 
-            _buttonTexture = _content.Load<Texture2D>("textures/uiElements/BetterButton");
+            _buttonTexture = _content.Load<Texture2D>("textures/uiElements/button");
 
             MainMenu();
             OptionsMenu();
@@ -114,16 +114,16 @@ namespace MonsterGirlDungeon.States
         #region Menu SetUp
         private void MainMenu()
         {
-            Vector2 playButtonPos = new Vector2(5,5);
-            Button playButton = new Button(_content, _buttonTexture, playButtonPos, "Play", new Vector2(0, 2));
+            Vector2 playButtonPos = new Vector2(16,16);
+            Button playButton = new Button(_content, _buttonTexture, playButtonPos, "Play", new Vector2(0, 1));
             playButton.Click += playButton_Click;
 
-            Vector2 optionButtonPos = new Vector2(5, 35);
-            Button optionsButton = new Button(_content, _buttonTexture, optionButtonPos, "Options", new Vector2(0, 2));
+            Vector2 optionButtonPos = new Vector2(16, 80);
+            Button optionsButton = new Button(_content, _buttonTexture, optionButtonPos, "Options", new Vector2(0, 1));
             optionsButton.Click += optionsButton_Click;
 
-            Vector2 exitButtonPos = new Vector2(5, 65);
-            Button exitButton = new Button(_content, _buttonTexture, exitButtonPos, "Exit", new Vector2(0, 2));
+            Vector2 exitButtonPos = new Vector2(16, 144);
+            Button exitButton = new Button(_content, _buttonTexture, exitButtonPos, "Exit", new Vector2(0, 1));
             exitButton.Click += ExitButton_Click;
 
             _components = new List<Components>()
@@ -137,36 +137,26 @@ namespace MonsterGirlDungeon.States
         private void OptionsMenu()
         {
 
-            Vector2 resButtonPos = new Vector2(150, 5);
-            Button resButton = new Button(_content, _buttonTexture, resButtonPos, "180 x 320", new Vector2(0, 2));
-            resButton.Click += ResButton_Click;
-
-            Vector2 resButton2Pos = new Vector2(150, 40);
-            Button resButton2 = new Button(_content, _buttonTexture, resButton2Pos, "360 x 640", new Vector2(0, 2));
+            Vector2 resButton2Pos = new Vector2(208, 16);
+            Button resButton2 = new Button(_content, _buttonTexture, resButton2Pos, "360 x 640", new Vector2(0, 1));
             resButton2.Click += ResButton2_Click;
 
-            Vector2 resButton3Pos = new Vector2(150, 75);
-            Button resButton3 = new Button(_content, _buttonTexture, resButton3Pos, "540 x 960", new Vector2(0, 2));
-            resButton3.Click += ResButton3_Click;
-
-            Vector2 resButton4Pos = new Vector2(150, 110);
-            Button resButton4 = new Button(_content, _buttonTexture, resButton4Pos, "720 x 1280", new Vector2(0, 2));
+            Vector2 resButton4Pos = new Vector2(208, 48);
+            Button resButton4 = new Button(_content, _buttonTexture, resButton4Pos, "720 x 1280", new Vector2(0, 1));
             resButton4.Click += ResButton4_Click;
 
-            Vector2 resButton5Pos = new Vector2(150, 145);
-            Button resButton5 = new Button(_content, _buttonTexture, resButton5Pos, "1080 x 1920", new Vector2(0, 2));
+            Vector2 resButton5Pos = new Vector2(208, 80);
+            Button resButton5 = new Button(_content, _buttonTexture, resButton5Pos, "1080 x 1920", new Vector2(0, 1));
             resButton5.Click += ResButton5_Click;
 
-            Vector2 debugButtonPos = new Vector2(5, 140);
-            Button debugButton = new Button(_content, _buttonTexture, debugButtonPos, "Debug", new Vector2(0, 2));
+            Vector2 debugButtonPos = new Vector2(208, 112);
+            Button debugButton = new Button(_content, _buttonTexture, debugButtonPos, "Debug", new Vector2(0, 1));
             debugButton.Click += DeBugButton_Click;
 
 
             _hiddenComponents = new List<Components>()
             {
-                resButton,
                 resButton2,
-                resButton3,
                 resButton4,
                 resButton5,
 
@@ -213,25 +203,7 @@ namespace MonsterGirlDungeon.States
             _game.Exit();
         }
 
-        private void ResButton_Click(object sender, EventArgs e)
-        {
-            _graphics.PreferredBackBufferHeight = 180;
-            _graphics.PreferredBackBufferWidth = 320;
 
-            AppScaleFactor._scaleFactor = 1;
-
-            foreach (var component in _components)
-            {
-                component.ChangeScaleFactor(AppScaleFactor._scaleFactor);
-            }
-            foreach (var component in _hiddenComponents)
-            {
-                component.ChangeScaleFactor(AppScaleFactor._scaleFactor);
-            }
-
-            _graphics.ApplyChanges();
-
-        }
 
         private void ResButton2_Click(object sender, EventArgs e)
         {
@@ -239,26 +211,6 @@ namespace MonsterGirlDungeon.States
             _graphics.PreferredBackBufferWidth = 640;
 
             AppScaleFactor._scaleFactor = 2;
-
-            foreach (var component in _components)
-            {
-                component.ChangeScaleFactor(AppScaleFactor._scaleFactor);
-            }
-            foreach (var component in _hiddenComponents)
-            {
-                component.ChangeScaleFactor(AppScaleFactor._scaleFactor);
-            }
-
-            _graphics.ApplyChanges();
-
-        }
-
-        private void ResButton3_Click(object sender, EventArgs e)
-        {
-            _graphics.PreferredBackBufferHeight = 540;
-            _graphics.PreferredBackBufferWidth = 960;
-
-            AppScaleFactor._scaleFactor = 3;
 
             foreach (var component in _components)
             {
